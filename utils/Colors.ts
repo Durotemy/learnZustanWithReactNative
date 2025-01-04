@@ -1,0 +1,35 @@
+
+const COLORS = {
+    mainGreen: '#099137',
+    blackText: 'rgba(27, 30, 33, 1)',
+    black: '#19191C',
+    white: '#fff',
+    pureWhite: '#FFFFFF',
+    lightGray: '#434347',
+    faintGray: '#F2F5F9',
+    mediumGray: '#CACCCF',
+    faintDark: '#69696C',
+    meduimDark: '#19191C',
+    ash: '#F2F5F9',
+    lighterGray: '#F5F6F8',
+    faintWhite: '#CACCCF',
+    faintGreen: '#CEE9D7',
+    darkGreen: '#033012',
+    lightOrange: '#FEF6E7',
+    darkOrange: '#865503',
+    red: '#D42620',
+    dark: '#1E1E22',
+    lightGreen: '#DEF7EC',
+    grassGreen: '#ADDABC',
+    darkerGreen: '#ADDABC',
+    deepGreen: '#004225',
+    limeGreen: '#E0F5D1',
+    yellow: '#FBBF24',
+    disabled: '#84C89B33',
+    disabledText: '#C4C4C4',
+    lightRed: '#FEFDFD',
+    mainYellow: '#F3A218',
+  };
+  
+  export default COLORS;
+  
