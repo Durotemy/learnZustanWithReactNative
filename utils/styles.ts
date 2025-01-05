@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
       },
       contentWrapper: {
         // flex: 1,
-        paddingHorizontal: normalizeSize(10),
+        // justifyContent: 'center',
+        paddingHorizontal: normalizeSize(12),
       },
       primaryText: {
         color: COLORS.blackText,

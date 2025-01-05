@@ -9,21 +9,33 @@ import Container from '@/components/Container';
 import CommonText from '@/components/CommonText';
 import COLORS from '@/utils/Colors';
 import SecondaryButton from '@/components/Button/SecondaryButton';
+import { fetchProduct } from '@/api/products';
+import { useQuery } from '@tanstack/react-query';
+import useCart from '@/store/cartStore';
 
 const ProductDetails = () => {
   const { id } = useLocalSearchParams();
-  const productId = Number(id);
-  const singleProduct = products.find((p) => p.id === productId);
-
+  const {data:singleProduct,isLoading, isError} = useQuery({
+    queryKey: ['product', id],
+    queryFn:() => fetchProduct(Number(id)),
+  })
+  
   const handleBack = () => {
     console.log('Go back');
     router.back();
   }
 
+
+  const addProduct = useCart((state) => state.addProduct);
+  
+  const addToCart = () => {
+    addProduct(singleProduct);
+  }
+
   return (
     <Screen>
       <Container width={SCREEN_WIDTH} padding={10}>
-        <CommonText onPress={() => handleBack()} label={"Go back"} />
+        {/* <CommonText onPress={() => handleBack()} label={"Go back"} /> */}
         <View style={styles.shadowContainer}>
           <Image
             source={{ uri: singleProduct?.image }}
@@ -31,15 +43,15 @@ const ProductDetails = () => {
             resizeMode="contain"
           />
         </View>
-        <Container padding={20} marginTop={20}>
+        <Container paddingHorizontal={22} marginTop={20}>
           <CommonText label={singleProduct?.name} bold marginTop={10} color={COLORS.faintDark} paddingVertical={10} />
           <CommonText label={`$${singleProduct?.price}`} bold />
           <CommonText label={singleProduct?.description} marginTop={20} color={COLORS.faintDark} />
         </Container>
 
-        <View style={{ width:'98%', marginLeft:'auto', marginRight:'auto'}}>
-          <SecondaryButton marginTop={10} label="Add to cart" backgroundColor={COLORS.black} fontSize={15} fontWeight={"bold"} />
-          <SecondaryButton marginTop={10} label="Wishlist" outlined color={COLORS.faintDark}/>
+        <View style={styles.btnContainer}>
+          <SecondaryButton onPress={addToCart} marginTop={10} label="Add to cart" backgroundColor={COLORS.black} fontSize={15} fontWeight={"bold"} />
+          <SecondaryButton marginTop={10} label="Wishlist" outlined color={COLORS.faintDark} />
         </View>
 
       </Container>
@@ -68,4 +80,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3.84,
   },
+
+  btnContainer: {
+    width: '97%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20
+
+
+  }
 });

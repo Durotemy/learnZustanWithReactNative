@@ -28,7 +28,7 @@ const Products = ({ item }: { item: IProducts }) => {
                 elevation: 5,
                 backgroundColor: COLORS.pureWhite,
                 borderRadius: 10,
-                height: 250,
+                height: 240,
                 paddingHorizontal: 5,
                 shadowColor: '#000',
                 shadowOffset: { width: 1, height: 1 },
@@ -47,8 +47,8 @@ const Products = ({ item }: { item: IProducts }) => {
                     }}
                     resizeMode='contain'
                 />
-                <CommonText label={item.name} marginTop={10} />
-                <CommonText label={item.price} paddingVertical={4} />
+                <CommonText label={item.name} marginTop={15} color={COLORS.faintDark} bold/>
+                <CommonText label={`$${item.price}`} paddingVertical={4} bold color={COLORS.black} marginTop={10}/>
                 <View style={{
                     position: 'absolute',
                     bottom: 0,

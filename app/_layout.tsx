@@ -1,13 +1,21 @@
-import { Stack } from "expo-router";
+import CommonText from "@/components/CommonText";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Link, Stack } from "expo-router";
 import { ReactNode } from "react";
+import { Text } from "react-native";
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
+
+const queryClient = new QueryClient();
+
     return (
-        <Stack >
-            <Stack.Screen name="product/[id]" options={{ title: 'Product',headerShown: false }} />
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-            <Stack.Screen name="about" options={{ headerShown: false }} />
+        <QueryClientProvider client={queryClient}>
+        <Stack screenOptions={{ headerRight: () => <Link href="/cart"><CommonText fontSize={18}  label="cart"/></Link> }}>
+            <Stack.Screen name="product/[id]" options={{ title: 'Product' }} />
+            <Stack.Screen name="index" />
+            <Stack.Screen name="about"  />
         </Stack>
+        </QueryClientProvider>
     );
 };
 

@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
 import products from "../assets/products.json"
@@ -6,21 +6,29 @@ import Products from '@/components/products'
 import Screen from '@/components/Screen'
 import Container from '@/components/Container'
 import { SCREEN_HEIGHT } from '@/utils/styles'
+import { fetchProducts } from '@/api/products'
+import { useQuery } from '@tanstack/react-query'
+import COLORS from '@/utils/Colors'
 
 const HomeScreen = () => {
 
+  const {data, isLoading = true, isError} = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+
   return (
-    <Screen hasChildScroll={true}>
+    <Screen hasChildScroll={true} >
       <Text style={{
         fontSize: 20,
-        marginBottom: 20,
+        marginBottom: 10,
         marginLeft: 12,
-        marginTop: 20,
+        marginTop: 40,
       }}>All product</Text>
 
       <Container  marginBottom={10} marginTop={10} height={SCREEN_HEIGHT} >
         <FlatList
-          data={products}
+          data={data}
           renderItem={({ item }) => (
             <Products item={item} />
           )}
