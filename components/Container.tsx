@@ -1,108 +1,84 @@
-
-/* eslint-disable prettier/prettier */
 import React, { ReactNode } from 'react';
-import { View } from 'react-native';
-
-import { ALIGN_ITEMS, FLEX_DIRECTION, JUSTIFY_CONTENT, STYLES } from '../utils/Types';
+import { View, StyleSheet } from 'react-native';
 import { normalizeSize } from '@/utils/Helpers';
 
-interface IContainer {
-    children: ReactNode;
-    flexDirection?: FLEX_DIRECTION;
-    alignItems?: ALIGN_ITEMS;
-    justifyContent?: JUSTIFY_CONTENT;
-    width?: any;
-    height?: any;
-    paddingBottom?: number;
-    paddingTop?: number;
-    paddingVertical?: number;
-    paddingHorizontal?: number;
-    marginLeft?: number;
-    marginRight?: number;
-    marginTop?: number;
-    marginBottom?: number;
-    style?: STYLES;
-    borderRadius?: number;
-    backgroundColor?: string;
-    padding?: number;
-    borderWidth?: number;
-    marginHorizontal?: number;
-    marginVertical?: number;
-    gap?: number;
-    flexWrap?: any;
-    borderColor?: any;
-    alignSelf?: any;
-    borderStyle?:any;
+interface ContainerProps {
+  children: ReactNode;
+  flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
+  alignItems?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
+  justifyContent?:
+    | 'flex-start'
+    | 'center'
+    | 'flex-end'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
+  width?: number | string;
+  height?: number | string;
+  padding?: number;
+  margin?: number;
+  paddingHorizontal?: number;
+  paddingVertical?: number;
+  marginHorizontal?: number;
+  marginVertical?: number;
+  borderRadius?: number;
+  backgroundColor?: string;
+  borderWidth?: number;
+  borderColor?: string;
+  flexWrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
+  gap?: number;
+  style?: object;
 }
 
-const Container = ({
-    flexDirection = 'column',
-    children,
-    alignItems,
-    alignSelf,
-    justifyContent,
-    width,
-    height,
-    paddingBottom = 0,
-    paddingTop = 0,
-    style,
-    paddingHorizontal = 0,
-    paddingVertical = 0,
-    marginLeft = 0,
-    marginRight = 0,
-    marginTop = 0,
-    marginBottom = 0,
-    borderRadius,
-    backgroundColor,
-    padding,
-    borderWidth,
-    marginHorizontal = 0,
-    marginVertical = 0,
-    gap,
-    flexWrap,
-    borderColor,
-    borderStyle = 'solid',
-
-}: IContainer) => {
-    const paddingStyles = padding
-        ? { padding: normalizeSize(padding) }
-        : {
-              paddingTop: normalizeSize(paddingTop),
-              paddingBottom: normalizeSize(paddingBottom),
-              paddingHorizontal: normalizeSize(paddingHorizontal),
-              paddingVertical: normalizeSize(paddingVertical),
-          };
-
-    return (
-        <View
-            style={[
-                style,
-                paddingStyles,
-                {
-                    flexDirection,
-                    alignItems,
-                    justifyContent,
-                    width,
-                    height,
-                    borderStyle:borderStyle,
-                    marginHorizontal: normalizeSize(marginHorizontal),
-                    marginVertical: normalizeSize(marginVertical),
-                    marginLeft: normalizeSize(marginLeft),
-                    marginRight: normalizeSize(marginRight),
-                    marginTop: normalizeSize(marginTop),
-                    marginBottom: normalizeSize(marginBottom),
-                    borderRadius,
-                    backgroundColor,
-                    borderWidth,
-
-                    gap,
-                    alignSelf,
-                    flexWrap,
-                    borderColor,
-                },
-            ]}>
-            {children}
-        </View>
-    );
+const Container: React.FC<ContainerProps> = ({
+  children,
+  flexDirection = 'column',
+  alignItems = 'stretch',
+  justifyContent = 'flex-start',
+  width = '100%',
+  height,
+  padding = 0,
+  margin = 0,
+  paddingHorizontal = 0,
+  paddingVertical = 0,
+  marginHorizontal = 0,
+  marginVertical = 0,
+  borderRadius = 0,
+  backgroundColor = 'transparent',
+  borderWidth = 0,
+  borderColor = 'transparent',
+  flexWrap = 'nowrap',
+  gap,
+  style = {},
+}) => {
+  return (
+    <View
+      style={[
+        {
+          flexDirection,
+          alignItems,
+          justifyContent,
+          width,
+          height,
+          padding: normalizeSize(padding),
+          margin: normalizeSize(margin),
+          paddingHorizontal: normalizeSize(paddingHorizontal),
+          paddingVertical: normalizeSize(paddingVertical),
+          marginHorizontal: normalizeSize(marginHorizontal),
+          marginVertical: normalizeSize(marginVertical),
+          borderRadius: normalizeSize(borderRadius),
+          backgroundColor,
+          borderWidth,
+          borderColor,
+          flexWrap,
+          gap: normalizeSize(gap || 0),
+        },
+        style,
+      ]}
+    >
+      {children}
+    </View>
+  );
 };
+
 export default Container;

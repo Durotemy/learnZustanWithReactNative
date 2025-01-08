@@ -1,61 +1,67 @@
 import React from 'react';
-import { SafeAreaView, View, StatusBar, Platform, StyleSheet, ActivityIndicator } from 'react-native';
-import { SafeAreaProvider, SafeAreaView as SafeAreaWrapper } from 'react-native-safe-area-context';
-// import styles from '../utils/styles';
-// import { normalizeSize } from '../utils/helpers';
-// import COLORS from '../utils/colors';
-import { ScrollView } from 'react-native';
-import COLORS from '@/utils/Colors';
-import styles, { SCREEN_HEIGHT } from '@/utils/styles';
-// import FullScreenLoader from './Loader/FullScreenLoader';
-// import styles from '../utils/styles';
+import {
+  SafeAreaView,
+  StatusBar,
+  View,
+  ScrollView,
+  ActivityIndicator,
+  StyleSheet,
+  Platform,
+} from 'react-native';
+import { normalizeSize } from '@/utils/Helpers';
 
-
-interface IScreen {
-    children: any;
-    style?: any;
-    applyPadding?: boolean;
-    loading?: boolean;
-    hasChildScroll?: boolean;
+interface ScreenProps {
+  children: React.ReactNode;
+  style?: object;
+  isLoading?: boolean;
+  useScrollView?: boolean;
+  backgroundColor?: string;
 }
 
-const Screen = ({ children, style, applyPadding = true, loading = false, hasChildScroll = false }: IScreen) => {
-    return (
-        <SafeAreaProvider>
-            <SafeAreaWrapper style={[styles.screen, style]}>
-                <StatusBar
-                    translucent={false}
-                    backgroundColor={COLORS.white}
-                    barStyle="dark-content"
-                />
-                {hasChildScroll ? (
-                    <View style={[applyPadding && styles.contentWrapper]}>
-                        {loading ? <ActivityIndicator  size={'large'} color={COLORS.faintDark} /> : null}
-                        {children}
-                    </View>
-                ) : (
-                    <ScrollView style={[applyPadding && styles.contentWrapper]}
-                        contentContainerStyle={styles.scrollViewContentContainer}
-                    >
-                        {loading ? <ActivityIndicator  size={'large'} color={COLORS.faintDark} /> : null}
-                        {children}
-                    </ScrollView>
-                )}
-                {/* </ScrollView> */}
-            </SafeAreaWrapper>
-        </SafeAreaProvider>
-    );
+const Screen: React.FC<ScreenProps> = ({
+  children,
+  style = {},
+  isLoading = false,
+  useScrollView = false,
+  backgroundColor = '#fff',
+}) => {
+  return (
+    <SafeAreaView style={[styles.container, { backgroundColor }]}>
+      <StatusBar
+        translucent={false}
+        backgroundColor={backgroundColor}
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+      />
+      {isLoading ? (
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator size="large" color="#000" />
+        </View>
+      ) : useScrollView ? (
+        <ScrollView contentContainerStyle={[styles.scrollContent, style]}>
+          {children}
+        </ScrollView>
+      ) : (
+        <View style={[styles.content, style]}>{children}</View>
+      )}
+    </SafeAreaView>
+  );
 };
 
-// const styles = StyleSheet.create({
-//     screen: {
-//         flex: 1,
-//         backgroundColor: COLORS.white,
-//     },
-//     contentWrapper: {
-//         flex: 1,
-//         paddingHorizontal: normalizeSize(10),
-//     },
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
+});
 
 export default Screen;

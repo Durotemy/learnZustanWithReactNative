@@ -32,14 +32,16 @@ const ProductDetails = () => {
     addProduct(singleProduct);
   }
 
+  console.log("dadadada", singleProduct)
+
   return (
-    <Screen>
+    <Screen isLoading={isLoading}>
       <Container width={SCREEN_WIDTH} padding={10}>
         {/* <CommonText onPress={() => handleBack()} label={"Go back"} /> */}
         <View style={styles.shadowContainer}>
           <Image
             source={{ uri: singleProduct?.image }}
-            style={{ width: SCREEN_WIDTH, height: 200 }}
+            style={{ width: 200, height: 200 }}
             resizeMode="contain"
           />
         </View>
